@@ -1,0 +1,12 @@
+body {
+	background-color: #1B1C1D;
+}
+
+body > .grid {
+	height: 100%;
+}
+
+.image {
+	width: auto !important;
+    height: 100% !important;
+}

@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, globalShortcut} = require('electron');
 const path = require('path');
 const url = require('url');
 const $ = require('jquery');
@@ -9,7 +9,10 @@ let win;
 
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({width: 800, height: 600});
+  win = new BrowserWindow({width: 800, height: 600, fullscreenable: true, fullscreen: true});
+
+  // clear default menu bar
+  win.setMenu(null);
 
   // and load the index.html of the app.
   win.loadURL(url.format({
@@ -17,9 +20,6 @@ function createWindow () {
     protocol: 'file:',
     slashes: true
   }));
-
-  // Open the DevTools.
-  win.webContents.openDevTools();
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -30,10 +30,23 @@ function createWindow () {
   });
 }
 
+function toggleFullScreen() {
+  win.setFullScreen(!win.isFullScreen());
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+  // register shortcuts
+
+  globalShortcut.register('f11', toggleFullScreen);
+  globalShortcut.register('alt+enter', toggleFullScreen);
+  globalShortcut.register('esc', () => { win.close() });
+  
+  //start app
+  createWindow();
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
