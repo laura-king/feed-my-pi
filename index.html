@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
+  <script>window.$ = require('jquery');</script>
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
+    <link rel="stylesheet" type ="text/css" href ="./appStyle.css" />
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    <div align="center">
+      <img class="image-stage" id="image-stage-one" src=""/>
+      <img class="image-stage" id="image-stage-two" src=""/>
+    </div>
   </body>
+  <script type="text/javascript" src="./displayFeed.js"></script>
 </html>
