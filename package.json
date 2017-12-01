@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/laura-king/feed-my-pi#readme",
   "dependencies": {
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "semantic-ui-css": "^2.2.12"
   }
 }
