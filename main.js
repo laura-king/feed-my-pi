@@ -43,7 +43,7 @@ app.on('ready', () => {
   globalShortcut.register('f11', toggleFullScreen);
   globalShortcut.register('alt+enter', toggleFullScreen);
   globalShortcut.register('esc', () => { win.close() });
-  
+
   //start app
   createWindow();
 });
