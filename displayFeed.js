@@ -34,10 +34,10 @@ class ImageQueue {
 	}
 }
 
-function displayImages(images) {
+function displayImages(images, transitionDelay) {
 	let $stageOne = $('#image-stage-one');
 	let $stageTwo = $('#image-stage-two');
-	const fadeSpeed = 500;
+	const fadeSpeed = transitionDelay / 6;
 
 	let stageOneActive;
 	queue = new ImageQueue(images);
@@ -54,5 +54,5 @@ function displayImages(images) {
 		$current.fadeOut(fadeSpeed);
 		setTimeout(() => { $next.fadeIn(fadeSpeed) }, fadeSpeed);
 		stageOneActive = !stageOneActive;
-	}, fadeSpeed * 6);
+	}, transitionDelay);
 }

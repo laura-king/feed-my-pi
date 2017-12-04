@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
-  <script>window.$ = window.jQuery = require('jquery');</script>
-  <script>window.semantic = require('semantic-ui-css');</script>
+  <script>
+  window.$ = window.jQuery = require('jquery'); 
+  window.semantic = require('semantic-ui-css');
+  window.fs = require('fs');
+  </script>
   <head>
     <meta charset="UTF-8">
     <title>Feed My Pi</title>
@@ -15,49 +18,10 @@
     </div>
   </body>
   <script type="text/javascript" src="./displayFeed.js"></script>
+  <script type="text/javascript" src="./redditScraper.js"></script>
   <script type="text/javascript">
-
-    let user_subreddits = ['wholesomememes', 'streetwearfits', 'sneakers', 'me_irl', 'meirl', 'i_irl', 'woof_irl', 'meow_irl'];
-
-    function shuffle(array) {
-      for (var i = array.length - 1; i > 0; i--) {
-          var j = Math.floor(Math.random() * (i + 1));
-          var temp = array[i];
-          array[i] = array[j];
-          array[j] = temp;
-      }
-    }
-
-    function isImageUrl(url) {
-      const validExtensions = ['jpg', 'png', 'svg', 'jpeg'];
-      for (i in validExtensions) {
-        if (url.toLowerCase().includes('.' + validExtensions[i])) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    let images = [];
-
-    function buildFeed(subreddits, urls) {
-        $.get('https://www.reddit.com/r/' + subreddits.pop() + '.json').done((response) => { 
-          response.data.children.forEach((post) => {
-            let url = post.data.url;
-            if (url && isImageUrl(url)) {
-              // filter out non image/non displayable posts
-              urls.push(url);
-            }
-          });
-          if (subreddits.length > 0) {
-            buildFeed(subreddits, urls);
-          } else {
-            shuffle(urls);
-            displayImages(urls);
-          }
-        });
-    }
-    
-    buildFeed(user_subreddits, images);
+    let userSettings = JSON.parse(fs.readFileSync('userSettings.json').toString());
+    // convert ms to s w/ x1000
+    buildFeed(userSettings.subreddits, [], userSettings.transitionTime * 1000);
   </script>
 </html>
