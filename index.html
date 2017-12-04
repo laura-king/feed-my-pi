@@ -17,7 +17,16 @@
   <script type="text/javascript" src="./displayFeed.js"></script>
   <script type="text/javascript">
 
-    let subreddit = 'me_irl';
+    let user_subreddits = ['wholesomememes', 'streetwearfits', 'sneakers', 'me_irl', 'meirl', 'i_irl', 'woof_irl', 'meow_irl'];
+
+    function shuffle(array) {
+      for (var i = array.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temp = array[i];
+          array[i] = array[j];
+          array[j] = temp;
+      }
+    }
 
     function isImageUrl(url) {
       const validExtensions = ['jpg', 'png', 'svg', 'jpeg'];
@@ -29,16 +38,26 @@
       return false;
     }
 
-    $.get('https://www.reddit.com/r/' + subreddit + '.json').done((response) => { 
-      let images = [];
-      response.data.children.forEach((post) => {
-        let url = post.data.url;
-        if (url && isImageUrl(url)) {
-          // filter out non image/non displayable posts
-          images.push(url);
-        }
-      })
-      displayImages(images);
-    });
+    let images = [];
+
+    function buildFeed(subreddits, urls) {
+        $.get('https://www.reddit.com/r/' + subreddits.pop() + '.json').done((response) => { 
+          response.data.children.forEach((post) => {
+            let url = post.data.url;
+            if (url && isImageUrl(url)) {
+              // filter out non image/non displayable posts
+              urls.push(url);
+            }
+          });
+          if (subreddits.length > 0) {
+            buildFeed(subreddits, urls);
+          } else {
+            shuffle(urls);
+            displayImages(urls);
+          }
+        });
+    }
+    
+    buildFeed(user_subreddits, images);
   </script>
 </html>
