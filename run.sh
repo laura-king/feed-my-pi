@@ -1,0 +1,1 @@
+startx ./node_modules/.bin/electron .
