@@ -17,17 +17,17 @@ function isImageUrl(url) {
   return false;
 }
 
-function buildFeed(subreddits, urls, transitionDelay) {
+function buildFeed(subreddits, urls, transitionDelay, allowNSFW) {
     $.get('https://www.reddit.com/r/' + subreddits.pop() + '.json').done((response) => { 
       response.data.children.forEach((post) => {
         let url = post.data.url;
-        if (url && isImageUrl(url)) {
-          // filter out non image/non displayable posts
+        if (url && isImageUrl(url) && !(!allowNSFW && post.data.over_18)) {
+          // filter out non image/non displayable posts, also filter out nsfw posts
           urls.push(url);
         }
       });
       if (subreddits.length > 0) {
-        buildFeed(subreddits, urls, transitionDelay);
+        buildFeed(subreddits, urls, transitionDelay, allowNSFW);
       } else {
         shuffle(urls);
         displayImages(urls, transitionDelay);

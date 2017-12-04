@@ -22,6 +22,6 @@
   <script type="text/javascript">
     let userSettings = JSON.parse(fs.readFileSync('userSettings.json').toString());
     // convert ms to s w/ x1000
-    buildFeed(userSettings.subreddits, [], userSettings.transitionTime * 1000);
+    buildFeed(userSettings.subreddits, [], userSettings.transitionTime * 1000, userSettings.allowNSFW);
   </script>
 </html>

@@ -1,4 +1,5 @@
 {
 	"subreddits" : [],
-	"transitionTime": 7
+	"transitionTime" : 7,
+	"allowNSFW" : false
 }
