@@ -15,4 +15,30 @@
     </div>
   </body>
   <script type="text/javascript" src="./displayFeed.js"></script>
+  <script type="text/javascript">
+
+    let subreddit = 'me_irl';
+
+    function isImageUrl(url) {
+      const validExtensions = ['jpg', 'png', 'svg', 'jpeg'];
+      for (i in validExtensions) {
+        if (url.toLowerCase().includes('.' + validExtensions[i])) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    $.get('https://www.reddit.com/r/' + subreddit + '.json').done((response) => { 
+      let images = [];
+      response.data.children.forEach((post) => {
+        let url = post.data.url;
+        if (url && isImageUrl(url)) {
+          // filter out non image/non displayable posts
+          images.push(url);
+        }
+      })
+      displayImages(images);
+    });
+  </script>
 </html>
